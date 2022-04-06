@@ -1,0 +1,35 @@
+{
+  "name": "links-db-store",
+  "version": "0.0.1",
+  "description": "A link language used in Ad4m",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && rollup -c",
+    "dev": "tsc && rollup -c -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@perspect3vism/ad4m": "0.1.29",
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-typescript": "^4.0.0",
+    "@tsconfig/svelte": "^1.0.0",
+    "@types/node": "^14.11.2",
+    "node-sass": "^7.0.1",
+    "rollup": "^2.3.4",
+    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-string": "^3.0.0",
+    "rollup-plugin-svelte": "^6.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
+    "svelte-check": "^1.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "tslib": "^2.0.0",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "events": "^3.3.0"
+  }
+}
