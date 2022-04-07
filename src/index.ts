@@ -5,17 +5,11 @@ function interactions(expression: Address): Interaction[] {
   return [];
 }
 
-const activeAgentDurationSecs = 300;
-
-export const name = "links-db-store";
-
 export default async function create(context: LanguageContext): Promise<Language> {
-  const Holochain = context.Holochain as HolochainLanguageDelegate;
-
-  const linksAdapter = new DbStoreLinkAdapter();
+  const linksAdapter = new DbStoreLinkAdapter(context);
 
   return {
-    name,
+    name: "centralized-link-store",
     linksAdapter,
     interactions,
   } as Language;
