@@ -11,16 +11,12 @@ const production = !process.env.ROLLUP_WATCH;
 
 export default {
   input: "index.js",
-  external: [],
   output: {
     sourcemap: true,
     format: "cjs",
-    name: "JuntoPerspective",
+    name: "NoteIpfs",
     file: "build/bundle.js",
-    interop: "esModule",
-    globals: {},
   },
-  external: [],
   plugins: [
     string({
       include: "build/*.js",
@@ -35,9 +31,6 @@ export default {
       //},
       preprocess: sveltePreprocess(),
     }),
-    // copy({
-    //     assets: ['package.unbundled.json']
-    // }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
@@ -45,7 +38,7 @@ export default {
     // consult the documentation for details:
     // https://github.com/rollup/plugins/tree/master/packages/commonjs
     resolve({
-      browser: true,
+      browser: false,
       dedupe: ["svelte"],
     }),
     commonjs(),
@@ -61,7 +54,7 @@ export default {
         ],
       ],
     }),
-    json(),
+    json()
   ],
   watch: {
     clearScreen: false,
