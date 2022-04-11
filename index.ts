@@ -11,26 +11,21 @@ export default async function create(context: LanguageContext): Promise<Language
   let languageHash = context.storageDirectory.split("/")[context.storageDirectory.split("/").length - 2];
 
   console.log("CENTRALIZED LINK LANGUAGE ATTEMPTING WEBSOCKET CONNECTION WITH GRAPH", languageHash)
-  const socket = io(`wss://centralized-link-store-production.up.railway.app/signals?graph=${languageHash}`);
+  const socket = io('https://centralized-link-store-production.up.railway.app');
 
   socket.on('connectFailed', function(error) {
       console.log('Connect Error: ' + error.toString());
   });
 
   socket.on('connect', () => {
-      console.log('WebSocket Client Connected');
-      // connection.on('error', function(error) {
-      //     console.log("Connection Error: " + error.toString());
-      // });
-      // connection.on('close', function() {
-      //     console.log('echo-protocol Connection Closed');
-      // });
-      // connection.on('message', function(message) {
-      //     if (message.type === 'utf8') {
-      //         console.log("Received: '" + message.utf8Data + "'");
-      //     }
-      // });
+    console.log('WebSocket Client Connected');
+    socket.emit("connectSignal", {"graph": languageHash});
   });
+
+  socket.on("linkAdded", (from, msg) => {
+    console.log("Got new link signal", from, msg)
+    linksAdapter.linkCallback([msg], []);
+  })
 
   return {
     name: "centralized-link-store",
