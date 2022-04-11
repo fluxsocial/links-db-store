@@ -1,6 +1,7 @@
 import type { Expression, LinksAdapter, NewLinksObserver, LanguageContext, LinkQuery } from "@perspect3vism/ad4m";
 import type { DID } from "@perspect3vism/ad4m/lib/DID";
 import https from "https";
+import axios from 'axios'
 
 function httpRequest(params, postData) {
   return new Promise(function(resolve, reject) {
@@ -62,7 +63,7 @@ export class DbStoreLinkAdapter implements LinksAdapter {
     data["graph"] = this.languageHash;
     console.warn("CENTRALIZED LINK LANGUAGE POSTING DATA", data);
 
-    //await axios.post("https://centralized-link-store-production.up.railway.app/addLink", data)
+    await axios.post("https://centralized-link-store-production.up.railway.app/addLink", data)
   }
 
   async updateLink(
@@ -74,35 +75,28 @@ export class DbStoreLinkAdapter implements LinksAdapter {
     const newLinkData = prepareExpressionLink(newLinkExpression);
     newLinkData["graph"] = this.languageHash;
 
-    // await axios.post("https://centralized-link-store-production.up.railway.app/removeLink", oldLinkData);
-    // await axios.post("https://centralized-link-store-production.up.railway.app/addLink", newLinkData);
+    await axios.post("https://centralized-link-store-production.up.railway.app/removeLink", oldLinkData);
+    await axios.post("https://centralized-link-store-production.up.railway.app/addLink", newLinkData);
   }
 
   async removeLink(link: Expression): Promise<void> {
     const linkData = prepareExpressionLink(link);
     linkData["graph"] = this.languageHash;
 
-    //await axios.post("https://centralized-link-store-production.up.railway.app/removeLink", linkData);
+    await axios.post("https://centralized-link-store-production.up.railway.app/removeLink", linkData);
   }
 
   async getLinks(query: LinkQuery): Promise<Expression[]> {
+
     query["graph"] = this.languageHash;
     console.log("CENTRALIZED LINK LANGUAGE QUERYING DATA", query);
 
 
-    const options = {
-      hostname: 'https://centralized-link-store-production.up.railway.app',
-      path: '/getLinks',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }
+    let links = await axios.post("https://centralized-link-store-production.up.railway.app/getLinks", query);
 
-    let links = await httpRequest(options, query);
-    console.log("Got result", links);
+    console.log("Got result", links.data);
     //@ts-ignore
-    return links;
+    return links.data;
   }
 
   addCallback(callback: NewLinksObserver): number {
