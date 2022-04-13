@@ -22,8 +22,8 @@ export default async function create(context: LanguageContext): Promise<Language
     socket.emit("connectSignal", {"graph": languageHash});
   });
 
-  socket.on("linkAdded", (from, msg) => {
-    console.log("Got new link signal", from, msg)
+  socket.on("linkAdded", (msg) => {
+    console.log("Got new link signal", msg)
     linksAdapter.linkCallback([msg], []);
   })
 
