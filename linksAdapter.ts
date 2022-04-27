@@ -1,13 +1,15 @@
 import type { Expression, LinksAdapter, NewLinksObserver, LanguageContext, LinkQuery } from "@perspect3vism/ad4m";
 import type { DID } from "@perspect3vism/ad4m/lib/DID";
 import axios from 'axios'
+import os from 'os';
 
 export class DbStoreLinkAdapter implements LinksAdapter {
   linkCallback?: NewLinksObserver
   languageHash: string
 
   constructor(context: LanguageContext) {
-    this.languageHash = context.storageDirectory.split("/")[context.storageDirectory.split("/").length - 2];
+    const split = os.platform() === 'win32' ? "\\" : "/";
+    this.languageHash = context.storageDirectory.split(split)[context.storageDirectory.split(split).length - 2];
   }
 
   writable(): boolean {
